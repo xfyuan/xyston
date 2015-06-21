@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/kollegorna/rspec-api_helpers.git
+  revision: 783c65472dd3bf37c7dfea489635cd3e0cca8cd2
+  specs:
+    rspec-api_helpers (0.0.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -45,6 +51,7 @@ GEM
       rake (~> 10.4)
     arel (6.0.0)
     awesome_print (1.6.1)
+    bcrypt (3.1.10)
     builder (3.2.2)
     bundler-audit (0.3.1)
       bundler (~> 1.2)
@@ -56,11 +63,6 @@ GEM
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.4.1)
-    delayed_job (4.0.6)
-      activesupport (>= 3.0, < 5.0)
-    delayed_job_active_record (4.0.3)
-      activerecord (>= 3.0, < 5.0)
-      delayed_job (>= 3.0, < 4.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
     dotenv (2.0.2)
@@ -194,10 +196,10 @@ DEPENDENCIES
   active_model_serializers
   annotate (~> 2.6.6)
   awesome_print
+  bcrypt (~> 3.1.7)
   bundler-audit
   byebug
   database_cleaner
-  delayed_job_active_record
   dotenv-rails
   factory_girl_rails
   faker
@@ -210,6 +212,7 @@ DEPENDENCIES
   rack-cors
   rack-timeout
   rails (= 4.2.2)
+  rspec-api_helpers!
   rspec-rails (>= 3.2)
   shoulda-matchers
   simplecov
