@@ -16,7 +16,7 @@ RSpec.describe Api::UsersController, type: :controller do
   describe "GET #index" do
     let!(:user) { User.create! valid_attributes }
 
-    before { get :index, {}, format: :json }
+    before { get :index, {} }
 
     it { should respond_with 200 }
 
@@ -28,7 +28,7 @@ RSpec.describe Api::UsersController, type: :controller do
   describe "GET #show" do
     let(:user) { User.create! valid_attributes }
 
-    before { get :show, {:id => user.to_param}, format: :json }
+    before { get :show, {:id => user.to_param} }
 
     it { should respond_with 200 }
 
@@ -39,13 +39,13 @@ RSpec.describe Api::UsersController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      before { post :create, {:user => valid_attributes}, format: :json }
+      before { post :create, {:user => valid_attributes} }
 
       it { should respond_with 201 }
 
       it "creates a new User" do
         expect {
-          post :create, {:user => valid_attributes}, format: :json
+          post :create, {:user => valid_attributes}
         }.to change(User, :count).by(1)
       end
 
@@ -62,7 +62,7 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     context "with invalid params" do
-      before { post :create, {:user => invalid_attributes}, format: :json }
+      before { post :create, {:user => invalid_attributes} }
 
       it { should respond_with 422 }
 
@@ -82,12 +82,12 @@ RSpec.describe Api::UsersController, type: :controller do
       let(:new_attributes) { attributes_for(:user, name: 'updated user') }
       let(:user) { user = User.create! valid_attributes }
 
-      before { put :update, {:id => user.to_param, :user => valid_attributes}, format: :json }
+      before { put :update, {:id => user.to_param, :user => valid_attributes} }
 
       it { should respond_with 200 }
 
       it "renders the json response for user updated" do
-        put :update, {:id => user.to_param, :user => new_attributes}, format: :json
+        put :update, {:id => user.to_param, :user => new_attributes}
         user.reload
 
         expect(json_response).to be_a(Hash)
@@ -103,7 +103,7 @@ RSpec.describe Api::UsersController, type: :controller do
     context "with invalid params" do
       let(:user) { user = User.create! valid_attributes }
 
-      before { put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json }
+      before { put :update, {:id => user.to_param, :user => invalid_attributes} }
 
       it { should respond_with 422 }
 
@@ -121,7 +121,7 @@ RSpec.describe Api::UsersController, type: :controller do
   describe "DELETE #destroy" do
     let!(:user) { user = User.create! valid_attributes }
 
-    let(:delete_request) { delete :destroy, {:id => user.to_param}, format: :json }
+    let(:delete_request) { delete :destroy, {:id => user.to_param} }
 
     it "responds with status 204" do
       delete_request
