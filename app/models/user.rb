@@ -16,7 +16,9 @@ class User < ActiveRecord::Base
   before_create :generate_authentication_token
 
   def generate_authentication_token
-    return if authentication_token.present?
-    self.authentication_token = SecureRandom.uuid.tr('-', '')
+    # return if authentication_token.present?
+    begin
+      self.authentication_token = SecureRandom.uuid.tr('-', '')
+    end while self.class.exists?(authentication_token: authentication_token)
   end
 end

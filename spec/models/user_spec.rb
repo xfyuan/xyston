@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject(:user) { create(:user) }
+  let(:user) { create(:user) }
 
   it { should respond_to(:name) }
   it { should respond_to(:email) }
@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:authentication_token) }
 
-  it { should be_valid }
+  it { should_not be_valid }
 
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:email) }
@@ -28,4 +28,17 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of(:name) }
   it { should validate_uniqueness_of(:email) }
   it { should validate_uniqueness_of(:authentication_token) }
+
+
+  describe "#generate_authentication_token" do
+    it "generate a unique token" do
+
+    end
+
+    it "generate another token when one already has been taken" do
+      another_user = create(:user, name: 'anotheruser', email: 'another_user@abc.com', authentication_token: 'anothertoken123')
+      user.generate_authentication_token
+      expect(user.authentication_token).not_to eq another_user.authentication_token
+    end
+  end
 end
