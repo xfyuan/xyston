@@ -55,9 +55,8 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "renders the json response for user created" do
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json).to be_a(Hash)
-        expect(json[:user][:email]).to eq(valid_attributes[:email])
+        expect(json_response).to be_a(Hash)
+        expect(json_response[:user][:email]).to eq(valid_attributes[:email])
         expect(assigns(:user)[:email]).to eq(valid_attributes[:email])
       end
     end
@@ -72,9 +71,8 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "renders an errors json" do
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json).to have_key(:errors)
-        expect(json[:errors][:name]).to include "can't be blank"
+        expect(json_response).to have_key(:errors)
+        expect(json_response[:errors][:name]).to include "can't be blank"
       end
     end
   end
@@ -92,9 +90,8 @@ RSpec.describe Api::UsersController, type: :controller do
         put :update, {:id => user.to_param, :user => new_attributes}, format: :json
         user.reload
 
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json).to be_a(Hash)
-        expect(json[:user][:name]).to eq(new_attributes[:name])
+        expect(json_response).to be_a(Hash)
+        expect(json_response[:user][:name]).to eq(new_attributes[:name])
         expect(assigns(:user)[:name]).to eq(new_attributes[:name])
       end
 
@@ -115,9 +112,8 @@ RSpec.describe Api::UsersController, type: :controller do
       end
 
       it "renders an errors json" do
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json).to have_key(:errors)
-        expect(json[:errors][:name]).to include "can't be blank"
+        expect(json_response).to have_key(:errors)
+        expect(json_response[:errors][:name]).to include "can't be blank"
       end
     end
   end
