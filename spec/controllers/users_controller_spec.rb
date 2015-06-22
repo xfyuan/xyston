@@ -19,9 +19,13 @@ RSpec.describe UsersController, type: :controller do
   let(:valid_session) { {} }
 
   describe "GET #index" do
+    let!(:user) { User.create! valid_attributes }
+
+    before { get :index, {}, valid_session }
+
+    it { should respond_with(200) }
+
     it "assigns all users as @users" do
-      user = User.create! valid_attributes
-      get :index, {}, valid_session
       expect(assigns(:users)).to eq([user])
     end
   end
@@ -29,9 +33,7 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #show" do
     let(:user) { User.create! valid_attributes }
 
-    before do
-      get :show, {:id => user.to_param}, valid_session
-    end
+    before { get :show, {:id => user.to_param}, valid_session }
 
     it { should respond_with(200) }
 

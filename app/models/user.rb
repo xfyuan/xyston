@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   validates_length_of :name, in: 4..30
   validates_length_of :email, in: 8..30
   validates_length_of :password, in: 6..30
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
   has_secure_password
 
