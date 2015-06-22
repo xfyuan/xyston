@@ -5,29 +5,13 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
-    end
+    render json: @users
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @user }
-    end
-  end
-
-  # GET /users/new
-  def new
-    @user = User.new
-  end
-
-  # GET /users/1/edit
-  def edit
+    render json: @user
   end
 
   # POST /users
@@ -37,11 +21,9 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render json: @user, status: :created }
+        render json: @user, status: :created
       else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        render json: @user.errors, status: :unprocessable_entity
       end
     end
   end
@@ -51,11 +33,9 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { head :no_content }
+        head :no_content
       else
-        format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        render json: @user.errors, status: :unprocessable_entity
       end
     end
   end
@@ -64,10 +44,7 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private
