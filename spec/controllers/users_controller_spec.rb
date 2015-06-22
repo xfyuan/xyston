@@ -84,9 +84,7 @@ RSpec.describe UsersController, type: :controller do
       let(:new_attributes) { attributes_for(:user, name: 'updated user') }
       let(:user) { user = User.create! valid_attributes }
 
-      before do
-        put :update, {:id => user.to_param, :user => valid_attributes}, format: :json
-      end
+      before { put :update, {:id => user.to_param, :user => valid_attributes}, format: :json }
 
       it { should respond_with 200 }
 
@@ -108,9 +106,7 @@ RSpec.describe UsersController, type: :controller do
     context "with invalid params" do
       let(:user) { user = User.create! valid_attributes }
 
-      before do
-        put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json
-      end
+      before { put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json }
 
       it { should respond_with 422 }
 
@@ -127,17 +123,17 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested user" do
-      user = User.create! valid_attributes
-      expect {
-        delete :destroy, {:id => user.to_param}, format: :json
-      }.to change(User, :count).by(-1)
+    let!(:user) { user = User.create! valid_attributes }
+
+    let(:delete_request) { delete :destroy, {:id => user.to_param}, format: :json }
+
+    it "responds with status 204" do
+      delete_request
+      expect(response.status).to eq 204
     end
 
-    it "redirects to the users list" do
-      user = User.create! valid_attributes
-      delete :destroy, {:id => user.to_param}, format: :json
-      expect(response).to redirect_to(users_url)
+    it "destroys the requested user" do
+      expect { delete_request }.to change(User, :count).by(-1)
     end
   end
 
