@@ -13,17 +13,12 @@ RSpec.describe UsersController, type: :controller do
     attributes_for(:user, name: nil)
   }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # UsersController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
-
   describe "GET #index" do
     let!(:user) { User.create! valid_attributes }
 
-    before { get :index, {}, valid_session }
+    before { get :index, {}, format: :json }
 
-    it { should respond_with(200) }
+    it { should respond_with 200 }
 
     it "assigns all users as @users" do
       expect(assigns(:users)).to eq([user])
@@ -33,9 +28,9 @@ RSpec.describe UsersController, type: :controller do
   describe "GET #show" do
     let(:user) { User.create! valid_attributes }
 
-    before { get :show, {:id => user.to_param}, valid_session }
+    before { get :show, {:id => user.to_param}, format: :json }
 
-    it { should respond_with(200) }
+    it { should respond_with 200 }
 
     it "assigns the requested user as @user" do
       expect(assigns(:user)).to eq(user)
@@ -44,33 +39,42 @@ RSpec.describe UsersController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
+      before { post :create, {:user => valid_attributes}, format: :json }
+
+      it { should respond_with 201 }
+
       it "creates a new User" do
         expect {
-          post :create, {:user => valid_attributes}, valid_session
+          post :create, {:user => valid_attributes}, format: :json
         }.to change(User, :count).by(1)
       end
 
       it "assigns a newly created user as @user" do
-        post :create, {:user => valid_attributes}, valid_session
         expect(assigns(:user)).to be_a(User)
         expect(assigns(:user)).to be_persisted
       end
 
-      it "redirects to the created user" do
-        post :create, {:user => valid_attributes}, valid_session
-        expect(response).to redirect_to(User.last)
+      it "renders the json response for user created" do
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json).to be_a(Hash)
+        expect(json[:user][:email]).to eq(valid_attributes[:email])
+        expect(assigns(:user)[:email]).to eq(valid_attributes[:email])
       end
     end
 
     context "with invalid params" do
+      before { post :create, {:user => invalid_attributes}, format: :json }
+
+      it { should respond_with 422 }
+
       it "assigns a newly created but unsaved user as @user" do
-        post :create, {:user => invalid_attributes}, valid_session
         expect(assigns(:user)).to be_a_new(User)
       end
 
-      it "re-renders the 'new' template" do
-        post :create, {:user => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+      it "renders an errors json" do
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json).to have_key(:errors)
+        expect(json[:errors][:name]).to include "can't be blank"
       end
     end
   end
@@ -83,20 +87,20 @@ RSpec.describe UsersController, type: :controller do
 
       it "updates the requested user" do
         user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => new_attributes}, valid_session
+        put :update, {:id => user.to_param, :user => new_attributes}, format: :json
         user.reload
         skip("Add assertions for updated state")
       end
 
       it "assigns the requested user as @user" do
         user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
+        put :update, {:id => user.to_param, :user => valid_attributes}, format: :json
         expect(assigns(:user)).to eq(user)
       end
 
       it "redirects to the user" do
         user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
+        put :update, {:id => user.to_param, :user => valid_attributes}, format: :json
         expect(response).to redirect_to(user)
       end
     end
@@ -104,13 +108,13 @@ RSpec.describe UsersController, type: :controller do
     context "with invalid params" do
       it "assigns the user as @user" do
         user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => invalid_attributes}, valid_session
+        put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json
         expect(assigns(:user)).to eq(user)
       end
 
       it "re-renders the 'edit' template" do
         user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => invalid_attributes}, valid_session
+        put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json
         expect(response).to render_template("edit")
       end
     end
@@ -120,13 +124,13 @@ RSpec.describe UsersController, type: :controller do
     it "destroys the requested user" do
       user = User.create! valid_attributes
       expect {
-        delete :destroy, {:id => user.to_param}, valid_session
+        delete :destroy, {:id => user.to_param}, format: :json
       }.to change(User, :count).by(-1)
     end
 
     it "redirects to the users list" do
       user = User.create! valid_attributes
-      delete :destroy, {:id => user.to_param}, valid_session
+      delete :destroy, {:id => user.to_param}, format: :json
       expect(response).to redirect_to(users_url)
     end
   end
