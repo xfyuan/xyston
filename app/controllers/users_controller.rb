@@ -29,12 +29,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    respond_to do |format|
-      if @user.update(user_params)
-        head :no_content
-      else
-        render json: @user.errors, status: :unprocessable_entity
-      end
+    if @user.update(user_params)
+      # head :no_content
+      render json: @user, status: 200
+    else
+      render json: { errors: @user.errors }, status: :unprocessable_entity
     end
   end
 

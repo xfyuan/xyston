@@ -81,41 +81,47 @@ RSpec.describe UsersController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { attributes_for(:user, name: 'updated user') }
+      let(:user) { user = User.create! valid_attributes }
 
-      it "updates the requested user" do
-        user = User.create! valid_attributes
+      before do
+        put :update, {:id => user.to_param, :user => valid_attributes}, format: :json
+      end
+
+      it { should respond_with 200 }
+
+      it "renders the json response for user updated" do
         put :update, {:id => user.to_param, :user => new_attributes}, format: :json
         user.reload
-        skip("Add assertions for updated state")
+
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json).to be_a(Hash)
+        expect(json[:user][:name]).to eq(new_attributes[:name])
+        expect(assigns(:user)[:name]).to eq(new_attributes[:name])
       end
 
       it "assigns the requested user as @user" do
-        user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => valid_attributes}, format: :json
         expect(assigns(:user)).to eq(user)
-      end
-
-      it "redirects to the user" do
-        user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => valid_attributes}, format: :json
-        expect(response).to redirect_to(user)
       end
     end
 
     context "with invalid params" do
-      it "assigns the user as @user" do
-        user = User.create! valid_attributes
+      let(:user) { user = User.create! valid_attributes }
+
+      before do
         put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json
+      end
+
+      it { should respond_with 422 }
+
+      it "assigns the user as @user" do
         expect(assigns(:user)).to eq(user)
       end
 
-      it "re-renders the 'edit' template" do
-        user = User.create! valid_attributes
-        put :update, {:id => user.to_param, :user => invalid_attributes}, format: :json
-        expect(response).to render_template("edit")
+      it "renders an errors json" do
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json).to have_key(:errors)
+        expect(json[:errors][:name]).to include "can't be blank"
       end
     end
   end
