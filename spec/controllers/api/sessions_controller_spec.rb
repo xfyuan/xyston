@@ -9,9 +9,6 @@ RSpec.describe Api::SessionsController, type: :controller do
     attributes_for(:user)
   }
 
-  let(:invalid_attributes) {
-  }
-
   describe "POST #create" do
     let!(:user) { User.create! valid_attributes }
 
@@ -44,17 +41,21 @@ RSpec.describe Api::SessionsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested api_session" do
-      session = Api::Session.create! valid_attributes
-      expect {
-        delete :destroy, {:id => session.to_param}
-      }.to change(Api::Session, :count).by(-1)
+    let(:user) { User.create! valid_attributes }
+
+    before do
+      credentials = { email: user.email, password: user.password}
+      post :create, { user: credentials }
+      user.reload
+      @old_token = user.dup.authentication_token
+      delete :destroy, { :id => @old_token }
     end
 
-    it "redirects to the api_sessions list" do
-      session = Api::Session.create! valid_attributes
-      delete :destroy, {:id => session.to_param}
-      expect(response).to redirect_to(api_sessions_url)
+    it { should respond_with 204 }
+
+    it "will use a new authentication_token next time" do
+      user.reload
+      expect(@old_token).not_to eq user.authentication_token
     end
   end
 
