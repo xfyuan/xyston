@@ -5,13 +5,10 @@ RSpec.describe Api::UsersController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    attributes_for(:user)
-  }
+  let(:valid_attributes)         { attributes_for(:user) }
+  let(:valid_attributes_another) { attributes_for(:user, name:'another', email:'another@abc.com') }
 
-  let(:invalid_attributes) {
-    attributes_for(:user, name: nil)
-  }
+  let(:invalid_attributes)       { attributes_for(:user, name: nil) }
 
   describe "GET #index" do
     let!(:user) { User.create! valid_attributes }
@@ -45,7 +42,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
       it "creates a new User" do
         expect {
-          post :create, {:user => valid_attributes}
+          post :create, {:user => valid_attributes_another}
         }.to change(User, :count).by(1)
       end
 
