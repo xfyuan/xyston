@@ -22,9 +22,6 @@ gem 'pundit'
 
 gem 'rack-cors', :require => 'rack/cors'
 
-# Usefull Rspec helpers for APIs (currently only ActiveModel Serializers are supported)
-gem 'rspec-api_helpers', github: 'kollegorna/rspec-api_helpers'
-
 group :development do
   gem 'puma'
   gem 'annotate', '~> 2.6.6'

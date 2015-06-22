@@ -1,9 +1,3 @@
-GIT
-  remote: git://github.com/kollegorna/rspec-api_helpers.git
-  revision: 783c65472dd3bf37c7dfea489635cd3e0cca8cd2
-  specs:
-    rspec-api_helpers (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -212,7 +206,6 @@ DEPENDENCIES
   rack-cors
   rack-timeout
   rails (= 4.2.2)
-  rspec-api_helpers!
   rspec-rails (>= 3.2)
   shoulda-matchers
   simplecov

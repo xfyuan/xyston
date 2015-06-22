@@ -4,7 +4,6 @@ require File.expand_path("../../config/environment", __FILE__)
 
 require "rspec/rails"
 require "shoulda/matchers"
-require "rspec/api_helpers"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |file| require file }
 
