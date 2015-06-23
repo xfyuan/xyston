@@ -8,6 +8,8 @@ RSpec.describe Authenticable, type: :controller do
   let(:user) { create(:user) }
   let(:authentication) { Authentication.new }
 
+  subject { authentication }
+
   describe "#current_user" do
     before do
       request.headers['Authorization'] = user.authentication_token
@@ -16,6 +18,21 @@ RSpec.describe Authenticable, type: :controller do
 
     it "returns the uesr from then authorization header" do
       expect(authentication.current_user.authentication_token).to eq user.authentication_token
+    end
+  end
+
+  describe "#authenticate_with_token" do
+    before do
+      allow(authentication).to receive(:current_user) { nil }
+      allow(authentication).to receive(:response) { response }
+      allow(response).to receive(:response_code) { 401 }
+      allow(response).to receive(:body) { {"errors" => "Not authenticated"}.to_json }
+    end
+
+    it { should respond_with 401 }
+
+    it "render a json error" do
+      expect(json_response[:errors]).to eq 'Not authenticated'
     end
   end
 end
