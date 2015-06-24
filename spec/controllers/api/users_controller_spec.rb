@@ -79,7 +79,10 @@ RSpec.describe Api::UsersController, type: :controller do
       let(:new_attributes) { attributes_for(:user, name: 'updated user') }
       let(:user) { user = User.create! valid_attributes }
 
-      before { put :update, {:id => user.to_param, :user => valid_attributes} }
+      before do
+        api_authorization_header user.authentication_token
+        put :update, {:id => user.to_param, :user => valid_attributes}
+      end
 
       it { should respond_with 200 }
 
@@ -89,7 +92,6 @@ RSpec.describe Api::UsersController, type: :controller do
 
         expect(json_response).to be_a(Hash)
         expect(json_response[:user][:name]).to eq(new_attributes[:name])
-        expect(assigns(:user)[:name]).to eq(new_attributes[:name])
       end
 
       it "assigns the requested user as @user" do
@@ -100,7 +102,10 @@ RSpec.describe Api::UsersController, type: :controller do
     context "with invalid params" do
       let(:user) { user = User.create! valid_attributes }
 
-      before { put :update, {:id => user.to_param, :user => invalid_attributes} }
+      before do
+        api_authorization_header user.authentication_token
+        put :update, {:id => user.to_param, :user => invalid_attributes}
+      end
 
       it { should respond_with 422 }
 
@@ -116,17 +121,18 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    let!(:user) { user = User.create! valid_attributes }
+    let(:user) { user = User.create! valid_attributes }
+    let(:request_delete) { delete :destroy, {:id => user.to_param} }
 
-    let(:delete_request) { delete :destroy, {:id => user.to_param} }
+    before { api_authorization_header user.authentication_token }
 
     it "responds with status 204" do
-      delete_request
-      expect(response.status).to eq 204
+      request_delete
+      should respond_with 204
     end
 
     it "destroys the requested user" do
-      expect { delete_request }.to change(User, :count).by(-1)
+      expect { request_delete }.to change(User, :count).by(-1)
     end
   end
 
