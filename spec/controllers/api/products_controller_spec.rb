@@ -124,4 +124,21 @@ RSpec.describe Api::ProductsController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy" do
+    let(:user) { create :user }
+    let!(:product) { create :product, user: user }
+    let(:request_delete) { delete :destroy, { user_id: user.id, id: product.id } }
+
+    before { api_authorization_header user.authentication_token }
+
+    it "responds with status 204" do
+      request_delete
+      should respond_with 204
+    end
+
+    it "destroys the requested product" do
+      expect { request_delete }.to change(Product, :count).by(-1)
+    end
+  end
 end

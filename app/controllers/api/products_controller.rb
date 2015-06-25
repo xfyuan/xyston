@@ -2,7 +2,7 @@ class Api::ProductsController < ApplicationController
   include Authenticable
 
   before_action :set_product,             only: [:show]
-  before_action :set_authed_product,      only: [:update]
+  before_action :set_authed_product,      only: [:update, :destroy]
   before_action :authenticate_with_token, only: [:create, :update]
 
   # GET /products
@@ -39,6 +39,13 @@ class Api::ProductsController < ApplicationController
     else
       render json: { errors: @product.errors }, status: :unprocessable_entity
     end
+  end
+
+  # DELETE /products/1
+  # DELETE /products/1.json
+  def destroy
+    @product.destroy
+    head :no_content
   end
 
   private
