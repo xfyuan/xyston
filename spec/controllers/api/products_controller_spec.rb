@@ -19,6 +19,12 @@ RSpec.describe Api::ProductsController, type: :controller do
       expect(json_response[:products].count).to eq 3
       expect(assigns(:products).count).to eq 3
     end
+
+    it "returns user object into each products" do
+      json_response[:products].each do |product|
+        expect(product[:user]).to be_present
+      end
+    end
   end
 
   describe "GET #show" do
@@ -31,6 +37,10 @@ RSpec.describe Api::ProductsController, type: :controller do
     it "assigns the requested product as @product" do
       expect(assigns(:product)).to eq product
       expect(json_response[:product][:title]).to eq product.title
+    end
+
+    it "has user as embeded object" do
+      expect(json_response[:product][:user][:email]).to eq product.user.email
     end
   end
 
