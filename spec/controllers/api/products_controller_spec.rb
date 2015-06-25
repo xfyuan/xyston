@@ -30,7 +30,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
     it "assigns the requested product as @product" do
       expect(assigns(:product)).to eq product
-      expect(json_response[:title]).to eq product.title
+      expect(json_response[:product][:title]).to eq product.title
     end
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
       it "renders the json response for product created" do
         expect(json_response).to be_a(Hash)
-        expect(json_response[:title]).to eq(valid_attributes[:title])
+        expect(json_response[:product][:title]).to eq(valid_attributes[:title])
         expect(assigns(:product)[:title]).to eq(valid_attributes[:title])
       end
     end
@@ -99,7 +99,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
       it "renders the json response for product updated" do
         expect(json_response).to be_a(Hash)
-        expect(json_response[:title]).to eq(new_attributes[:title])
+        expect(json_response[:product][:title]).to eq(new_attributes[:title])
       end
 
       it "assigns the requested product as @product" do
