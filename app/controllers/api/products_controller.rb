@@ -1,8 +1,9 @@
 class Api::ProductsController < ApplicationController
   include Authenticable
 
-  before_action :set_product, only: [:show]
-  before_action :authenticate_with_token, only: [:create]
+  before_action :set_product,             only: [:show]
+  before_action :set_authed_product,      only: [:update]
+  before_action :authenticate_with_token, only: [:create, :update]
 
   # GET /products
   # GET /products.json
@@ -29,10 +30,24 @@ class Api::ProductsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /products/1
+  # PATCH/PUT /products/1.json
+  def update
+    if @product.update(product_params)
+      # head :no_content
+      render json: @product, status: 200
+    else
+      render json: { errors: @product.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
+    end
+    def set_authed_product
+      @product = current_user.products.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

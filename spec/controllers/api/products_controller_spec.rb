@@ -81,4 +81,47 @@ RSpec.describe Api::ProductsController, type: :controller do
       end
     end
   end
+
+  describe "PUT #update" do
+    let(:user) { create :user }
+    let(:product) { create :product, user: user }
+
+    before { api_authorization_header user.authentication_token }
+
+    context "with valid params" do
+      let(:new_attributes) { attributes_for(:product, title: 'updated product') }
+
+      before do
+        put :update, { user_id: user.id, id: product.id, product: new_attributes }
+      end
+
+      it { should respond_with 200 }
+
+      it "renders the json response for product updated" do
+        expect(json_response).to be_a(Hash)
+        expect(json_response[:title]).to eq(new_attributes[:title])
+      end
+
+      it "assigns the requested product as @product" do
+        expect(assigns(:product)).to eq(product)
+      end
+    end
+
+    context "with invalid params" do
+      before do
+        put :update, { user_id: user.id, id: product.id, product: invalid_attributes }
+      end
+
+      it { should respond_with 422 }
+
+      it "assigns the product as @product" do
+        expect(assigns(:product)).to eq(product)
+      end
+
+      it "renders an errors json" do
+        expect(json_response).to have_key(:errors)
+        expect(json_response[:errors][:title]).to include "can't be blank"
+      end
+    end
+  end
 end
