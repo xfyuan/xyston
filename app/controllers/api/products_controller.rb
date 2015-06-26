@@ -3,23 +3,17 @@ class Api::ProductsController < ApplicationController
 
   before_action :set_product,             only: [:show]
   before_action :set_authed_product,      only: [:update, :destroy]
-  before_action :authenticate_with_token, only: [:create, :update]
+  before_action :authenticate_with_token, only: [:create, :update, :destroy]
 
-  # GET /products
-  # GET /products.json
   def index
-    @products = Product.all
+    @products = params[:product_ids].present? ? Product.find(params[:product_ids]) : Product.all
     render json: @products
   end
 
-  # GET /products/1
-  # GET /products/1.json
   def show
     render json: @product
   end
 
-  # POST /products
-  # POST /products.json
   def create
     @product = current_user.products.build(product_params)
 
@@ -30,19 +24,14 @@ class Api::ProductsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /products/1
-  # PATCH/PUT /products/1.json
   def update
     if @product.update(product_params)
-      # head :no_content
       render json: @product, status: 200
     else
       render json: { errors: @product.errors }, status: :unprocessable_entity
     end
   end
 
-  # DELETE /products/1
-  # DELETE /products/1.json
   def destroy
     @product.destroy
     head :no_content
@@ -53,6 +42,7 @@ class Api::ProductsController < ApplicationController
     def set_product
       @product = Product.find(params[:id])
     end
+
     def set_authed_product
       @product = current_user.products.find(params[:id])
     end

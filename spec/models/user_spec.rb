@@ -29,7 +29,7 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of(:email) }
   it { should validate_uniqueness_of(:authentication_token) }
 
-  it { should have_many(:products) }
+  it { should have_many :products }
 
 
   describe "#generate_authentication_token" do
@@ -49,13 +49,19 @@ RSpec.describe User, type: :model do
       3.times { create :product, user: user }
     end
 
-    it "destroys the associated products on self destruct" do
+    it "destroys associated products" do
       products = user.products
       user.destroy
       products.each do |product|
-        # expect(Product.find(product)).to raise_error ActiveRecord::RecordNotFound
+        expect(Product.find(product)).to raise_error ActiveRecord::RecordNotFound
         expect(Product.find(product)).not_to exist
       end
+    end
+
+    it "destroys associated products" do
+      expect {
+        user.destroy
+      }.to change(User, :count).by(-1).and change(Product, :count).by(-3)
     end
   end
 end

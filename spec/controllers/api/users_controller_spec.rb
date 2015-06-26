@@ -2,35 +2,39 @@ require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :controller do
 
-  # This should return the minimal set of attributes required to create a valid
-  # User. As you add validations to User, be sure to
-  # adjust the attributes here as well.
   let(:valid_attributes)         { attributes_for(:user) }
   let(:valid_attributes_another) { attributes_for(:user, name:'another', email:'another@abc.com') }
-
   let(:invalid_attributes)       { attributes_for(:user, name: nil) }
 
   describe "GET #index" do
-    let!(:user) { User.create! valid_attributes }
+    let!(:user) { create :user }
 
-    before { get :index, {} }
+    before do
+      get :index
+    end
 
     it { should respond_with 200 }
 
     it "assigns all users as @users" do
-      expect(assigns(:users)).to eq([user])
+      expect(assigns(:users)).to eq [user]
     end
   end
 
   describe "GET #show" do
-    let(:user) { User.create! valid_attributes }
+    let(:user) { create :user }
 
-    before { get :show, {:id => user.to_param} }
+    before do
+      get :show, id: user.id
+    end
 
     it { should respond_with 200 }
 
     it "assigns the requested user as @user" do
-      expect(assigns(:user)).to eq(user)
+      expect(assigns(:user)).to eq user
+    end
+
+    it "has products ids as embed object" do
+      expect(json_response[:user][:product_ids]).to eq []
     end
   end
 

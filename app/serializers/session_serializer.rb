@@ -1,4 +1,4 @@
-class Api::SessionSerializer < ActiveModel::Serializer
+class SessionSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :token
 
   def token

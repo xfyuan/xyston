@@ -35,22 +35,4 @@ RSpec.describe Authenticable, type: :controller do
       expect(json_response[:errors]).to eq 'Not authenticated'
     end
   end
-
-  describe "#user_signed_in?" do
-    context "when there is a user on 'session'" do
-      before do
-        allow(authentication).to receive(:current_user) { user }
-      end
-
-      it { should be_user_signed_in }
-    end
-
-    context "when there is no user on 'session'" do
-      before do
-        allow(authentication).to receive(:current_user) { nil }
-      end
-
-      it { should_not be_user_signed_in }
-    end
-  end
 end
