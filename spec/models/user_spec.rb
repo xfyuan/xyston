@@ -29,6 +29,8 @@ RSpec.describe User, type: :model do
   it { should validate_uniqueness_of(:email) }
   it { should validate_uniqueness_of(:authentication_token) }
 
+  it { should have_many :products }
+
 
   describe "#generate_authentication_token" do
     it "generate a unique token" do
@@ -39,6 +41,26 @@ RSpec.describe User, type: :model do
       another_user = create(:user, name: 'anotheruser', email: 'another_user@abc.com', authentication_token: 'anothertoken123')
       user.generate_authentication_token
       expect(user.authentication_token).not_to eq another_user.authentication_token
+    end
+  end
+
+  describe "#products association" do
+    before do
+      3.times { create :product, user: user }
+    end
+
+    it "destroys associated products" do
+      products = user.products
+      user.destroy
+      products.each do |product|
+        expect(Product.find(product)).to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+
+    it "destroys associated products" do
+      expect {
+        user.destroy
+      }.to change(User, :count).by(-1).and change(Product, :count).by(-3)
     end
   end
 end
