@@ -6,7 +6,7 @@ class Api::SessionsController < ApplicationController
   def create
     if @user && @user.authenticate(user_params[:password])
       update_authentication_token @user
-      render json: Api::SessionSerializer.new(@user, root: false).to_json, status: 200
+      render json: SessionSerializer.new(@user, root: false).to_json, status: 200
     else
       render json: { errors: 'Invalid email or password' }, status: :unauthorized
     end
