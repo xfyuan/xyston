@@ -10,19 +10,40 @@ RSpec.describe Api::ProductsController, type: :controller do
   describe "GET #index" do
     before do
       4.times { create :product, user: user }
-      get :index
     end
 
-    it { should respond_with 200 }
+    context "without any product_ids params" do
+      before do
+        get :index
+      end
 
-    it "return product as @products" do
-      expect(json_response[:products].count).to eq 4
-      expect(assigns(:products).count).to eq 4
+      it { should respond_with 200 }
+
+      it "return product as @products" do
+        expect(json_response[:products].count).to eq 4
+        expect(assigns(:products).count).to eq 4
+      end
+
+      it "returns the user object into each product" do
+        json_response[:products].each do |product_response|
+          expect(product_response[:user]).to be_present
+        end
+      end
     end
 
-    it "returns the user object into each product" do
-      json_response[:products].each do |product_response|
-        expect(product_response[:user]).to be_present
+
+    context "with product_ids params" do
+      let(:second_user) { create :user, name: 'second_user', email: 'second_user@abc.com' }
+      before do
+        3.times { create :product, user: second_user }
+        get :index, product_ids: second_user.product_ids
+      end
+
+      it "returns products just belongs to the second user" do
+        expect(json_response[:products].count).to eq 3
+        json_response[:products].each do |product_response|
+          expect(product_response[:user][:email]).to eq second_user.email
+        end
       end
     end
   end
