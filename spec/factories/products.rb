@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :product do
-    sequence(:title) { |n| "Xyston #{n}" }
+    sequence(:title) { |n| "Xyston Product #{n}" }
     price { rand() * 100 }
     published false
     user

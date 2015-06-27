@@ -22,7 +22,8 @@ RSpec.describe Api::OrdersController, type: :controller do
   end
 
   describe "GET #show" do
-    let(:order) { create :order, user: current_user }
+    let(:product) { create :product }
+    let(:order) { create :order, user: current_user, product_ids: [product.id] }
 
     before do
       get :show, user_id: current_user.id, id: order.id
@@ -32,6 +33,14 @@ RSpec.describe Api::OrdersController, type: :controller do
 
     it "returns the user order matching the id" do
       expect(json_response[:order][:id]).to eq order.id
+    end
+
+    it "includes the total for the order" do
+      expect(json_response[:order][:total]).to eq order.total.to_s
+    end
+
+    it "includes the products on the order" do
+      expect(json_response[:order][:products].count).to eq 1
     end
   end
 
