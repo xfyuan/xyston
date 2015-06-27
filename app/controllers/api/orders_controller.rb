@@ -12,6 +12,16 @@ class Api::OrdersController < ApplicationController
     render json: @order
   end
 
+  def create
+    @order = current_user.orders.build(order_params)
+
+    if @order.save
+      render json: @order, status: :created
+    else
+      render json: { errors: @order.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_authed_order
@@ -20,6 +30,6 @@ class Api::OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit()
+      params.require(:order).permit(:product_ids => [])
     end
 end
