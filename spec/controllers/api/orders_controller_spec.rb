@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Api::OrdersController, type: :controller do
 
-  let(:admin) { create :user }
   let(:current_user) { create :user }
   before do
     api_authorization_header current_user.authentication_token
@@ -46,9 +45,9 @@ RSpec.describe Api::OrdersController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      let(:product1) { create :product, user: admin }
-      let(:product2) { create :product, user: admin }
-      let(:order_params) { { product_ids: [product1.id, product2.id] } }
+      let(:product1) { create :product }
+      let(:product2) { create :product }
+      let(:order_params) { { product_ids_and_quantities: [[product1.id, 2], [product2.id, 3]] } }
 
       before do
         post :create, { user_id: current_user.id, order: order_params }
@@ -59,6 +58,10 @@ RSpec.describe Api::OrdersController, type: :controller do
       it "renders just the user order" do
         expect(json_response).to be_a(Hash)
         expect(json_response[:order][:id]).to be_present
+      end
+
+      it "embed the 2 products objects related to the order" do
+        expect(json_response[:order][:products].size).to eq 2
       end
     end
   end
