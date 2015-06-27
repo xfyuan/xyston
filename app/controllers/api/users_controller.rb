@@ -1,6 +1,4 @@
 class Api::UsersController < ApplicationController
-  include Authenticable
-
   before_action :set_user,                only: [:show, :edit]
   before_action :set_authed_user,         only: [:update, :destroy]
   before_action :authenticate_with_token, only: [:update, :destroy]
