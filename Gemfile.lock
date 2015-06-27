@@ -57,6 +57,11 @@ GEM
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.4.1)
+    delayed_job (4.0.6)
+      activesupport (>= 3.0, < 5.0)
+    delayed_job_active_record (4.0.3)
+      activerecord (>= 3.0, < 5.0)
+      delayed_job (>= 3.0, < 4.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
     dotenv (2.0.2)
@@ -192,6 +197,7 @@ DEPENDENCIES
   bundler-audit
   byebug
   database_cleaner
+  delayed_job_active_record
   dotenv-rails
   factory_girl_rails
   kaminari

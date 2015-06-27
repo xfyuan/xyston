@@ -7,7 +7,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem "kaminari"
 gem "pg"
 gem "rails", "4.2.2"
-# gem "delayed_job_active_record"
+gem "delayed_job_active_record"
 # gem "email_validator"
 # gem "i18n-tasks"
 # gem "rack-canonical-host"
