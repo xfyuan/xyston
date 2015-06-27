@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :product do
-    title { Faker::Commerce.product_name }
-    price { Faker::Commerce.price }
+    sequence(:title) { |n| "Xyston #{n}" }
+    price { rand() * 100 }
     published false
     user
   end

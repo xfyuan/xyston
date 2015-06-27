@@ -1,11 +1,11 @@
 FactoryGirl.define do
   factory :user do
-    name                 { Faker::Internet.user_name('testuser') }
-    email                { Faker::Internet.email('user') }
+    sequence(:name)      { |n| "xyston#{n}" }
+    sequence(:email)     { |n| "xyston#{n}@abc.com" }
     password             'nopassword123'
     password_confirmation 'nopassword123'
-    firstname            { Faker::Name.first_name }
-    lastname             { Faker::Name.last_name }
+    sequence(:firstname) { |n| "Apple#{n}" }
+    sequence(:lastname)  { |n| "Tree#{n}" }
     admin false
   end
 
