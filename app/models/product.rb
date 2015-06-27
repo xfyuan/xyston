@@ -3,6 +3,8 @@ class Product < ActiveRecord::Base
   validates_numericality_of :price, greater_than_or_equal_to: 0
 
   belongs_to :user
+  has_many :placements
+  has_many :orders, through: :placements
 
   scope :recent,                  -> { order(updated_at: :desc) }
   scope :filter_by_title,         ->(keyword) { where("lower(title) LIKE ?", "%#{keyword.downcase}%") }
