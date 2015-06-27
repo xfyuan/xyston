@@ -21,7 +21,6 @@ RSpec.describe Api::ProductsController, type: :controller do
 
       it "return product as @products" do
         expect(json_response[:products].count).to eq 4
-        expect(assigns(:products).count).to eq 4
       end
 
       it "returns the user object into each product" do

@@ -56,6 +56,27 @@ RSpec.describe Product, type: :model do
         expect(Product.recent).to eq [product3, product2, product4, product1]
       end
     end
+
+    context ".search" do
+      it "returns empty array when title 'fastest' and '100' a min price are set" do
+        search_hash = { keyword: 'fastest', min_price: 100 }
+        expect(Product.search(search_hash)).to be_empty
+      end
+
+      it "returns product1 when title 'tv', '150' as max price, and '100' as min price are set" do
+        search_hash = { keyword: 'tv', min_price: 100, max_price: 150 }
+        expect(Product.search(search_hash)).to eq [product1]
+      end
+
+      it "returns all products when empty hash is sent" do
+        expect(Product.search({})).to eq [product1, product2, product3, product4]
+      end
+
+      it "returns product from the ids when product_ids is present" do
+        search_hash = { product_ids: [product1.id, product2.id] }
+        expect(Product.search(search_hash)).to eq [product1, product2]
+      end
+    end
   end
 
 end
