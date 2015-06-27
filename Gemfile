@@ -38,7 +38,6 @@ group :development, :test do
   gem "pry-rails"
   gem "pry-byebug"
   gem "rspec-rails", ">= 3.2"
-  gem "faker"
 end
 
 group :test do
