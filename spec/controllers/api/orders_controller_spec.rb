@@ -18,6 +18,12 @@ RSpec.describe Api::OrdersController, type: :controller do
     it "return product as @products" do
       expect(json_response[:orders].count).to eq 4
     end
+
+    it { expect(json_response).to have_key(:meta) }
+    it { expect(json_response[:meta]).to have_key(:pagination) }
+    it { expect(json_response[:meta][:pagination]).to have_key(:per_page) }
+    it { expect(json_response[:meta][:pagination]).to have_key(:total_pages) }
+    it { expect(json_response[:meta][:pagination]).to have_key(:total_objects) }
   end
 
   describe "GET #show" do
