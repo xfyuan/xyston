@@ -16,6 +16,7 @@ class Api::OrdersController < ApplicationController
     @order.build_placements_with_product_ids_and_quantities(params[:order][:product_ids_and_quantities])
 
     if @order.save
+      OrderMailer.send_confirmation(@order).deliver_now
       @order.reload
       render json: @order, status: :created
     else
