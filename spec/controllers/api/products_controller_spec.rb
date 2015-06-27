@@ -9,7 +9,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
   describe "GET #index" do
     before do
-      4.times { create :product, user: user }
+      4.times { create :product }
     end
 
     context "without any product_ids params" do
@@ -32,16 +32,15 @@ RSpec.describe Api::ProductsController, type: :controller do
 
 
     context "with product_ids params" do
-      let(:second_user) { create :user, name: 'second_user', email: 'second_user@abc.com' }
       before do
-        3.times { create :product, user: second_user }
-        get :index, product_ids: second_user.product_ids
+        3.times { create :product, user: user }
+        get :index, product_ids: user.product_ids
       end
 
       it "returns products just belongs to the second user" do
         expect(json_response[:products].count).to eq 3
         json_response[:products].each do |product_response|
-          expect(product_response[:user][:email]).to eq second_user.email
+          expect(product_response[:user][:email]).to eq user.email
         end
       end
     end
