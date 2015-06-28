@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { create(:user) }
 
   describe "validation" do
+    let(:user) { build :user }
     it { should respond_to(:name) }
     it { should respond_to(:email) }
     it { should respond_to(:firstname) }
@@ -35,6 +35,8 @@ RSpec.describe User, type: :model do
   end
 
   describe "#generate_authentication_token" do
+    let(:user) { build :user }
+
     it "generate a unique token" do
 
     end
@@ -47,8 +49,9 @@ RSpec.describe User, type: :model do
   end
 
   describe "#products association" do
+    let(:user) { create :user }
     before do
-      3.times { create :product, user: user }
+      create_list :product, 3, user: user
     end
 
     it "destroys associated products" do

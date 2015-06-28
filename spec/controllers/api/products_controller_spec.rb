@@ -9,7 +9,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
   describe "GET #index" do
     before do
-      4.times { create :product }
+      create_list :product, 4
     end
 
     context "without any product_ids params" do
@@ -35,7 +35,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
     context "with product_ids params" do
       before do
-        3.times { create :product, user: user }
+        create_list :product, 3, user: user
         get :index, product_ids: user.product_ids
       end
 
@@ -117,6 +117,7 @@ RSpec.describe Api::ProductsController, type: :controller do
 
   describe "PUT #update" do
     let(:product) { create :product, user: user }
+
     before do
       api_authorization_header user.authentication_token
     end

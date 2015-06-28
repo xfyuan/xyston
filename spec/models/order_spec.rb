@@ -16,11 +16,11 @@ RSpec.describe Order, type: :model do
   end
 
   describe "#set_total!" do
-    let(:product1) { create :product, price: 100 }
-    let(:product2) { create :product, price: 85 }
+    let(:product1) { build :product, price: 100 }
+    let(:product2) { build :product, price: 85 }
 
-    let(:placement1) { create :placement, product: product1, quantity: 3 }
-    let(:placement2) { create :placement, product: product2, quantity: 10 }
+    let(:placement1) { build :placement, product: product1, quantity: 3 }
+    let(:placement2) { build :placement, product: product2, quantity: 10 }
 
     let(:order) { build :order }
 
@@ -35,8 +35,8 @@ RSpec.describe Order, type: :model do
   end
 
   describe "#build_placements_with_product_ids_and_quantities" do
-    let(:product1) { create :product, price: 100, quantity: 5 }
-    let(:product2) { create :product, price: 85, quantity: 10 }
+    let(:product1) { build :product, price: 100, quantity: 5 }
+    let(:product2) { build :product, price: 85, quantity: 10 }
     let(:order)    { build :order }
     let(:product_ids_and_quantities) { [ [product1.id, 2], [product2.id, 3] ] }
 
@@ -46,11 +46,11 @@ RSpec.describe Order, type: :model do
   end
 
   describe "#valid?" do
-    let(:product1) { create :product, price: 100, quantity: 5 }
-    let(:product2) { create :product, price: 85, quantity: 10 }
+    let(:product1) { build :product, price: 100, quantity: 5 }
+    let(:product2) { build :product, price: 85, quantity: 10 }
 
-    let(:placement1) { create :placement, product: product1, quantity: 3 }
-    let(:placement2) { create :placement, product: product2, quantity: 12 }
+    let(:placement1) { build :placement, product: product1, quantity: 3 }
+    let(:placement2) { build :placement, product: product2, quantity: 12 }
 
     let(:order)    { build :order }
 

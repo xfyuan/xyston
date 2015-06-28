@@ -5,7 +5,7 @@ class Authentication < ApplicationController
 end
 
 RSpec.describe Authenticable, type: :controller do
-  let(:user) { create(:user) }
+  let(:user) { create :user }
   let(:authentication) { Authentication.new }
 
   subject { authentication }

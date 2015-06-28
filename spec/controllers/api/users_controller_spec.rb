@@ -40,13 +40,15 @@ RSpec.describe Api::UsersController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      before { post :create, {:user => valid_attributes} }
+      before do
+        post :create, user: valid_attributes
+      end
 
       it { should respond_with 201 }
 
       it "creates a new User" do
         expect {
-          post :create, {:user => valid_attributes_another}
+          post :create, user: valid_attributes_another
         }.to change(User, :count).by(1)
       end
 
@@ -63,7 +65,9 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     context "with invalid params" do
-      before { post :create, {:user => invalid_attributes} }
+      before do
+        post :create, user: invalid_attributes
+      end
 
       it { should respond_with 422 }
 
@@ -79,13 +83,17 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "PUT #update" do
+    let(:user) { create :user }
+
+    before do
+      api_authorization_header user.authentication_token
+    end
+
     context "with valid params" do
       let(:new_attributes) { attributes_for(:user, name: 'updated user') }
-      let(:user) { user = User.create! valid_attributes }
 
       before do
-        api_authorization_header user.authentication_token
-        put :update, {:id => user.to_param, :user => valid_attributes}
+        put :update, id: user.id, user: valid_attributes
       end
 
       it { should respond_with 200 }
@@ -104,11 +112,8 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     context "with invalid params" do
-      let(:user) { user = User.create! valid_attributes }
-
       before do
-        api_authorization_header user.authentication_token
-        put :update, {:id => user.to_param, :user => invalid_attributes}
+        put :update, id: user.id, user: invalid_attributes
       end
 
       it { should respond_with 422 }
@@ -125,10 +130,12 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    let(:user) { user = User.create! valid_attributes }
+    let(:user) { create :user }
     let(:request_delete) { delete :destroy, {:id => user.to_param} }
 
-    before { api_authorization_header user.authentication_token }
+    before do
+      api_authorization_header user.authentication_token
+    end
 
     it "responds with status 204" do
       request_delete
