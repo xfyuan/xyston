@@ -15,7 +15,17 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :test
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: "http://localhost:3000" }
+  config.action_mailer.smtp_setting = {
+    :address => "smtp.mandrillapp.com",
+    :port => 25,
+    :domain => "thoughtworks.com",
+    :authentication => :login,
+    :user_name => "xfyuan@thoughtworks.com",
+    :password => "E0nDwi5_FGI5Tjw76beAGQ",
+    :enable_starttls_auto => true
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -40,5 +50,4 @@ Rails.application.configure do
   # Raises error for missing translations
   config.action_view.raise_on_missing_translations = true
 
-  config.action_mailer.default_url_options = { host: "localhost:8000" }
 end
