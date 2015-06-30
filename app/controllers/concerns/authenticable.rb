@@ -2,7 +2,9 @@ module Authenticable
   extend ActiveSupport::Concern
 
   def current_user
-    @current_user ||= User.find_by(authentication_token: request.headers['Authorization'])
+    authenticate_or_request_with_http_token do |token, options|
+      @current_user ||= User.find_by(authentication_token: token)
+    end
   end
 
   def authenticate_with_token
