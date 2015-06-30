@@ -7,6 +7,10 @@ RSpec.describe Api::ProductsController, type: :controller do
   let(:valid_attributes_another) { attributes_for(:product, title:'another') }
   let(:invalid_attributes)       { attributes_for(:product, title: nil) }
 
+  before do
+    api_authorization_header user.authentication_token
+  end
+
   describe "GET #index" do
     before do
       create_list :product, 4
@@ -68,10 +72,6 @@ RSpec.describe Api::ProductsController, type: :controller do
   end
 
   describe "POST #create" do
-    before do
-      api_authorization_header user.authentication_token
-    end
-
     context "with valid params" do
       before do
         post :create, {user_id: user.id, product: valid_attributes}
@@ -118,10 +118,6 @@ RSpec.describe Api::ProductsController, type: :controller do
   describe "PUT #update" do
     let(:product) { create :product, user: user }
 
-    before do
-      api_authorization_header user.authentication_token
-    end
-
     context "with valid params" do
       let(:new_attributes) { attributes_for(:product, title: 'updated product') }
 
@@ -162,8 +158,6 @@ RSpec.describe Api::ProductsController, type: :controller do
   describe "DELETE #destroy" do
     let!(:product) { create :product, user: user }
     let(:request_delete) { delete :destroy, { user_id: user.id, id: product.id } }
-
-    before { api_authorization_header user.authentication_token }
 
     it "responds with status 204" do
       request_delete

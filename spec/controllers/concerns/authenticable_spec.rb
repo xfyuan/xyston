@@ -12,7 +12,7 @@ RSpec.describe Authenticable, type: :controller do
 
   describe "#current_user" do
     before do
-      request.headers['Authorization'] = user.authentication_token
+      request.headers['Authorization'] = "Token token=#{user.authentication_token}"
       allow(authentication).to receive(:request) { request }
     end
 

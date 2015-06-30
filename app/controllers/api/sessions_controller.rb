@@ -1,8 +1,6 @@
 class Api::SessionsController < ApplicationController
   before_action :set_user, only: [:create]
 
-  # POST /api/sessions
-  # POST /api/sessions.json
   def create
     if @user && @user.authenticate(user_params[:password])
       update_authentication_token @user
@@ -12,8 +10,6 @@ class Api::SessionsController < ApplicationController
     end
   end
 
-  # DELETE /api/sessions/1
-  # DELETE /api/sessions/1.json
   def destroy
     user = User.find_by(authentication_token: params[:id])
     update_authentication_token user

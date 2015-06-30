@@ -2,13 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Api::UsersController, type: :controller do
 
+  let(:user) { create :user }
   let(:valid_attributes)         { attributes_for(:user) }
   let(:valid_attributes_another) { attributes_for(:user, name:'another', email:'another@abc.com') }
   let(:invalid_attributes)       { attributes_for(:user, name: nil) }
 
-  describe "GET #index" do
-    let!(:user) { create :user }
+  before do
+    api_authorization_header user.authentication_token
+  end
 
+  describe "GET #index" do
     before do
       get :index
     end
@@ -21,8 +24,6 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "GET #show" do
-    let(:user) { create :user }
-
     before do
       get :show, id: user.id
     end
@@ -83,12 +84,6 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "PUT #update" do
-    let(:user) { create :user }
-
-    before do
-      api_authorization_header user.authentication_token
-    end
-
     context "with valid params" do
       let(:new_attributes) { attributes_for(:user, name: 'updated user') }
 
@@ -130,12 +125,7 @@ RSpec.describe Api::UsersController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-    let(:user) { create :user }
     let(:request_delete) { delete :destroy, {:id => user.to_param} }
-
-    before do
-      api_authorization_header user.authentication_token
-    end
 
     it "responds with status 204" do
       request_delete
