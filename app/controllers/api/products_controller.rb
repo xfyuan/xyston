@@ -1,7 +1,7 @@
 class Api::ProductsController < ApplicationController
-  before_action :set_product,             only: [:show]
-  before_action :set_authed_product,      only: [:update, :destroy]
-  before_action :authenticate_with_token, only: [:create, :update, :destroy]
+  before_action :authenticate_with_token
+  before_action :set_product,        only: [:show]
+  before_action :set_authed_product, only: [:update, :destroy]
 
   def index
     @products = Product.search(params).page(params[:page]).per(params[:per_page])

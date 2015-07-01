@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
-  before_action :set_user,                only: [:show, :edit]
-  before_action :set_authed_user,         only: [:update, :destroy]
-  before_action :authenticate_with_token, only: [:update, :destroy]
+  before_action :authenticate_with_token
+  before_action :set_user,        only: [:show, :edit]
+  before_action :set_authed_user, only: [:update, :destroy]
 
   def index
     @users = User.all

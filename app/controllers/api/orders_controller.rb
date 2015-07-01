@@ -1,6 +1,6 @@
 class Api::OrdersController < ApplicationController
-  before_action :set_authed_order,      only: [:show, :update, :destroy]
   before_action :authenticate_with_token
+  before_action :set_authed_order, only: [:show, :update, :destroy]
 
   def index
     @orders = current_user.orders.page(params[:page]).per(params[:per_page])
