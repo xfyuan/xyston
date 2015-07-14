@@ -22,11 +22,16 @@ gem 'pundit'
 
 gem 'rack-cors', :require => 'rack/cors'
 
+gem 'puma'
 group :development do
-  gem 'puma'
   gem 'annotate', '~> 2.6.6'
   gem "spring"
   gem "spring-commands-rspec"
+  gem 'rack-mini-profiler'
+  gem 'flamegraph'
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano3-puma'
 end
 
 group :development, :test do
@@ -53,6 +58,6 @@ group :test do
 end
 
 group :staging, :production do
-  gem "unicorn"
+  # gem "unicorn"
   gem "rack-timeout"
 end

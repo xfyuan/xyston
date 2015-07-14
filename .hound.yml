@@ -4,7 +4,7 @@ coffeescript:
   enabled: true
 haml:
   # config_file: .haml-style.yml
-  enabled: true
+  enabled: false
 javascript:
   # config_file: .javascript-style.json
   enabled: true
