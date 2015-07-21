@@ -10,7 +10,7 @@ gem "rails", "4.2.2"
 gem "delayed_job_active_record"
 # gem "email_validator"
 # gem "i18n-tasks"
-# gem "rack-canonical-host"
+gem "rack-canonical-host"
 # gem "recipient_interceptor"
 
 # Simple gem that allows you to run multiple ActiveRecord::Relation using hash. Perfect for APIs.
@@ -23,6 +23,8 @@ gem 'pundit'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'puma'
+gem "dotenv-rails"
+
 group :development do
   gem 'annotate', '~> 2.6.6'
   gem "spring"
@@ -32,14 +34,13 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano3-puma'
-  gem 'capistrano-dotenv-tasks'
+  # gem 'capistrano-dotenv-tasks'
 end
 
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit", require: false
   gem "byebug"
-  gem "dotenv-rails"
   gem "factory_girl_rails"
   gem "pry-rails"
   gem "pry-byebug"

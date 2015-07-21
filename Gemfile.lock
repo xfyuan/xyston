@@ -59,7 +59,6 @@ GEM
     capistrano-bundler (1.1.4)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
-    capistrano-dotenv-tasks (0.1.1)
     capistrano-rails (1.1.3)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -134,6 +133,9 @@ GEM
     pundit (1.0.1)
       activesupport (>= 3.0.0)
     rack (1.6.4)
+    rack-canonical-host (0.1.0)
+      addressable
+      rack (~> 1.0)
     rack-cors (0.4.0)
     rack-mini-profiler (0.9.3)
       rack (>= 1.1.3)
@@ -227,7 +229,6 @@ DEPENDENCIES
   bundler-audit
   byebug
   capistrano
-  capistrano-dotenv-tasks
   capistrano-rails
   capistrano3-puma
   database_cleaner
@@ -242,6 +243,7 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
+  rack-canonical-host
   rack-cors
   rack-mini-profiler
   rack-timeout
