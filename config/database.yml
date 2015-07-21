@@ -65,5 +65,5 @@ test:
 production:
   <<: *default
   database: xyston_production
-  # username: xyston
+  username: <%= ENV['XYSTON_DATABASE_USERNAME'] %>
   password: <%= ENV['XYSTON_DATABASE_PASSWORD'] %>

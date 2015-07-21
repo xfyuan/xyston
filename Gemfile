@@ -32,6 +32,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-rails'
   gem 'capistrano3-puma'
+  gem 'capistrano-dotenv-tasks'
 end
 
 group :development, :test do
