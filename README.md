@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/xfyuan/xyston.svg?branch=master)](https://travis-ci.org/xfyuan/xyston)
 [![Code Climate](https://codeclimate.com/github/xfyuan/xyston/badges/gpa.svg)](https://codeclimate.com/github/xfyuan/xyston)
 [![Test Coverage](https://codeclimate.com/github/xfyuan/xyston/badges/coverage.svg)](https://codeclimate.com/github/xfyuan/xyston/coverage)
 
