@@ -4,7 +4,7 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 before_script:
-  - psql -c 'create database "xyston_test";' -U postgres
+  - cp .sample.env .env
   - cp .sample.env .env.test
 install:
   - bin/setup
