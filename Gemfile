@@ -40,7 +40,6 @@ end
 group :development, :test do
   gem "awesome_print"
   gem "bundler-audit", require: false
-  gem 'rubocop', require: false
   gem "byebug"
   gem "factory_girl_rails"
   gem "pry-rails"
